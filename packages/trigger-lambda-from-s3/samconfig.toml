@@ -1,0 +1,6 @@
+version = 0.1
+
+[default.local_invoke.parameters]
+template = "./cdk.out/TriggerLambdaFromS3Stack.template.json"
+function_logical_id = "trigger-lambda-from-s3-function"
+event = "events/event.json"

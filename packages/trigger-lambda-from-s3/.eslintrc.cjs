@@ -19,7 +19,7 @@ module.exports = {
     project: ['tsconfig.eslint.json'],
   },
   plugins: ['@typescript-eslint'],
-  rules: {},
+  rules: { '@typescript-eslint/no-unsafe-assignment': 'off' },
   ignorePatterns: [
     '.eslintrc.cjs',
     'jest.config.cjs',
