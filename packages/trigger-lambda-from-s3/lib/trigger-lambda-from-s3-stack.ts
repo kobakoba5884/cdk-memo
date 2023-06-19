@@ -66,13 +66,26 @@ export class TriggerLambdaFromS3Stack extends Stack {
         effect: Effect.ALLOW,
       })
     )
+
+    role.addToPolicy(
+      new PolicyStatement({
+        actions: [
+          'logs:CreateLogGroup',
+          'logs:CreateLogStream',
+          'logs:PutLogEvents',
+        ],
+        resources: ['arn:aws:logs:*:*:*'],
+        effect: Effect.ALLOW,
+      })
+    )
+
     return role
   }
 
   createLambdaFunction(role: Role): LambdaFunction {
     return new LambdaFunction(this, `${SHARED_NAME}-function`, {
       functionName: `${SHARED_NAME}-function`,
-      code: Code.fromAsset('./lambda'),
+      code: Code.fromAsset('./dist/lambda'),
       runtime: Runtime.NODEJS_18_X,
       handler: 'index.handler',
       timeout: Duration.seconds(10),
