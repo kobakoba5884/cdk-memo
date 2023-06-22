@@ -2,6 +2,10 @@
 *.d.ts
 node_modules/
 dist/
+.env
+.devcontainer/
+.git/
+log/
 
 # CDK asset staging directory
 .cdk.staging
