@@ -1,6 +1,17 @@
-import { CfnOutput, Duration, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-import { AttributeType, BillingMode, StreamViewType, Table } from 'aws-cdk-lib/aws-dynamodb'
+import {
+  CfnOutput,
+  Duration,
+  RemovalPolicy,
+  Stack,
+  StackProps,
+} from 'aws-cdk-lib'
+import { Construct } from 'constructs'
+import {
+  AttributeType,
+  BillingMode,
+  StreamViewType,
+  Table,
+} from 'aws-cdk-lib/aws-dynamodb'
 import {
   Role,
   ServicePrincipal,
@@ -11,19 +22,26 @@ import {
   Code,
   Function as LambdaFunction,
   Runtime,
+  StartingPosition,
 } from 'aws-cdk-lib/aws-lambda'
+import { DynamoEventSource } from 'aws-cdk-lib/aws-lambda-event-sources'
 
 const SHARED_NAME = 'trigger-lambda-from-dynamodb-stream'
 
 // https://dynobase.dev/dynamodb-aws-cdk/
 export class TriggerLambdaFromDynamodbStreamStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
-    super(scope, id, props);
+    super(scope, id, props)
 
     const dynamoDB = this.createDynamoDB()
 
     const role = this.createRole(dynamoDB)
 
+    const lambdaFunction = this.createLambdaFunction(role)
+
+    this.addEventSource(dynamoDB, lambdaFunction)
+
+    this.createOutputs(dynamoDB, lambdaFunction)
   }
 
   createDynamoDB = (): Table => {
@@ -32,12 +50,12 @@ export class TriggerLambdaFromDynamodbStreamStack extends Stack {
     return new Table(this, tableName, {
       tableName: tableName,
       partitionKey: { name: 'id', type: AttributeType.STRING },
-      sortKey: {name: 'createdAt', type:AttributeType.NUMBER},
+      sortKey: { name: 'createdAt', type: AttributeType.NUMBER },
       billingMode: BillingMode.PROVISIONED,
       readCapacity: 5,
       writeCapacity: 5,
       removalPolicy: RemovalPolicy.DESTROY,
-      stream: StreamViewType.NEW_AND_OLD_IMAGES
+      stream: StreamViewType.NEW_AND_OLD_IMAGES,
     })
   }
 
@@ -54,7 +72,7 @@ export class TriggerLambdaFromDynamodbStreamStack extends Stack {
           'dynamodb:UpdateItem',
           'dynamodb:DeleteItem',
           'dynamodb:Scan',
-          'dynamodb:Query'
+          'dynamodb:Query',
         ],
         resources: [dynamoDB.tableArn],
         effect: Effect.ALLOW,
@@ -87,6 +105,14 @@ export class TriggerLambdaFromDynamodbStreamStack extends Stack {
       timeout: Duration.seconds(10),
       role: role,
     })
+  }
+
+  addEventSource = (dynamoDB: Table, lambdaFunction: LambdaFunction): void => {
+    lambdaFunction.addEventSource(
+      new DynamoEventSource(dynamoDB, {
+        startingPosition: StartingPosition.LATEST,
+      })
+    )
   }
 
   createOutputs = (dynamoDB: Table, lambdaFunction: LambdaFunction): void => {

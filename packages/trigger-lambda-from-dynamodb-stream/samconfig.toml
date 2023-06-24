@@ -1,0 +1,7 @@
+version = 0.1
+
+[default.local_invoke.parameters]
+template = "./cdk.out/TriggerLambdaFromDynamodbStreamStack.template.json"
+function_logical_id = "trigger-lambda-from-dynamodb-stream-function"
+event = "events/event.json"
+log_file = "./log/lambda.log"

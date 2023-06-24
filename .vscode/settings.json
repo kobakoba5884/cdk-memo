@@ -5,7 +5,7 @@
     "source.fixAll.eslint": true
   },
   // https://stackoverflow.com/questions/58866847/in-vs-code-im-getting-this-error-failed-to-load-module-attempted-to-load-pr
-  "prettier.prettierPath": "/usr/local/lib/node_modules/prettier",
+  "prettier.prettierPath": "",
   "cSpell.words": [
     "dbaeumer",
     "esbenp",
