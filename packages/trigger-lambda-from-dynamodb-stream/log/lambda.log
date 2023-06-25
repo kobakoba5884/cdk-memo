@@ -1,0 +1,10 @@
+START RequestId: d4ac81e4-d053-4020-b26f-bd5a743782d3 Version: $LATEST
+2023-06-23T17:46:05.867Z	undefined	INFO	loading function
+2023-06-23T17:46:05.872Z	d4ac81e4-d053-4020-b26f-bd5a743782d3	INFO	inserted!!
+2023-06-23T17:46:05.872Z	d4ac81e4-d053-4020-b26f-bd5a743782d3	INFO	DynamoDB Record: {"Keys":{"Id":{"S":"101"}},"NewImage":{"Message":{"S":"New item!"},"Id":{"S":"101"}},"SequenceNumber":"111","SizeBytes":26,"StreamViewType":"NEW_AND_OLD_IMAGES"}
+2023-06-23T17:46:05.872Z	d4ac81e4-d053-4020-b26f-bd5a743782d3	INFO	updated!!
+2023-06-23T17:46:05.872Z	d4ac81e4-d053-4020-b26f-bd5a743782d3	INFO	DynamoDB Record: {"Keys":{"Id":{"S":"101"}},"NewImage":{"Message":{"S":"This item has changed"},"Id":{"S":"101"}},"OldImage":{"Message":{"S":"New item!"},"Id":{"S":"101"}},"SequenceNumber":"222","SizeBytes":59,"StreamViewType":"NEW_AND_OLD_IMAGES"}
+2023-06-23T17:46:05.872Z	d4ac81e4-d053-4020-b26f-bd5a743782d3	INFO	deleted!!
+2023-06-23T17:46:05.872Z	d4ac81e4-d053-4020-b26f-bd5a743782d3	INFO	DynamoDB Record: {"Keys":{"Id":{"S":"101"}},"OldImage":{"Message":{"S":"This item has changed"},"Id":{"S":"101"}},"SequenceNumber":"333","SizeBytes":38,"StreamViewType":"NEW_AND_OLD_IMAGES"}
+nullEND RequestId: d4ac81e4-d053-4020-b26f-bd5a743782d3
+REPORT RequestId: d4ac81e4-d053-4020-b26f-bd5a743782d3	Init Duration: 0.16 ms	Duration: 387.86 ms	Billed Duration: 388 ms	Memory Size: 128 MB	Max Memory Used: 128 MB	

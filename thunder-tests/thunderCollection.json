@@ -1,0 +1,24 @@
+[
+  {
+    "_id": "11e79623-d8c7-4e65-ab57-3f14ce9db449",
+    "colName": "trigger-lambda-from-api-gateway",
+    "created": "2023-06-25T05:41:57.794Z",
+    "sortNum": 10000,
+    "folders": [
+      {
+        "_id": "1d977cea-db03-4c48-a77a-79eafeeb2fd1",
+        "name": "/",
+        "containerId": "",
+        "created": "2023-06-25T05:42:27.338Z",
+        "sortNum": 20000
+      },
+      {
+        "_id": "219078b8-65a4-4539-b8d0-030a7ac5f499",
+        "name": "/myResource",
+        "containerId": "",
+        "created": "2023-06-25T08:26:00.097Z",
+        "sortNum": 30000
+      }
+    ]
+  }
+]

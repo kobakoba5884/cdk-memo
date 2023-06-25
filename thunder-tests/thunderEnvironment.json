@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "78850296-b7bc-493a-8270-145faf6014f8",
+    "name": "trigger-lambda-from-api-gateway",
+    "default": true,
+    "sortNum": 20000,
+    "created": "2023-06-25T05:44:35.858Z",
+    "modified": "2023-06-25T05:44:35.858Z",
+    "data": [
+      {
+        "name": "URL",
+        "value": "http://localhost:3333"
+      }
+    ]
+  }
+]

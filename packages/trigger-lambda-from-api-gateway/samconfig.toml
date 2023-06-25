@@ -1,0 +1,14 @@
+version = 0.1
+
+[default.local_invoke.parameters]
+template = "./cdk.out/TriggerLambdaFromApiGatewayStack.template.json"
+env_vars = "./env.json"
+function_logical_id = "trigger-lambda-from-api-gateway-function"
+event = "events/event.json"
+log_file = "./log/lambda-for-invke.log"
+
+[default.local_start_api.parameters]
+template = "./cdk.out/TriggerLambdaFromApiGatewayStack.template.json"
+env_vars = "./env.json"
+log_file = "./log/lambda-for-api-gateway.log"
+port = "3333"

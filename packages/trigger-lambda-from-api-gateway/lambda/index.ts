@@ -3,13 +3,14 @@ import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda'
 
 console.log('loading function')
 
-const bucketName = process.env.BUCKET
+const bucketName: string = process.env.BUCKET_NAME || 'bucket env is not exited'
 const s3Client = new S3Client({})
 
 export const handler = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   console.log('Received event:', JSON.stringify(event, null, 2))
+  console.log(`bucketName: ${bucketName}`)
 
   try {
     const method = event.httpMethod
@@ -31,14 +32,14 @@ export const handler = async (
       } else {
         return {
           statusCode: 400,
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ error: 'Invalid path' }),
         }
       }
     } else {
       return {
         statusCode: 405,
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ error: 'Invalid HTTP Method' }),
       }
     }
@@ -47,7 +48,7 @@ export const handler = async (
 
     return {
       statusCode: 500,
-      headers: {'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: 'Internal Server Error' }),
     }
   }

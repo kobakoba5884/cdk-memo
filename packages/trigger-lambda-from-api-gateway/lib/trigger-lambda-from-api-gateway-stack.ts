@@ -18,7 +18,7 @@ import {
   Function as LambdaFunction,
   Runtime,
 } from 'aws-cdk-lib/aws-lambda'
-import { LambdaIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway'
+import { LambdaIntegration, Resource, RestApi } from 'aws-cdk-lib/aws-apigateway'
 
 const SHARED_NAME = 'trigger-lambda-from-api-gateway'
 
@@ -30,15 +30,11 @@ export class TriggerLambdaFromApiGatewayStack extends Stack {
 
     const lambdaFucntion = this.createLambdaFunction(bucket)
 
-    bucket.grantWrite(lambdaFucntion)
+    bucket.grantReadWrite(lambdaFucntion)
 
     const restApi = this.createApiGateway()
 
-    const lambdaIntegration = new LambdaIntegration(lambdaFucntion, {
-      requestTemplates: { 'application/json': '{ "statusCode": "200" }' },
-    })
-
-    restApi.root.addMethod('GET', lambdaIntegration)
+    this.setupApiGateway(lambdaFucntion, restApi)
 
     this.createOutputs(bucket, lambdaFucntion, restApi)
   }
@@ -68,7 +64,7 @@ export class TriggerLambdaFromApiGatewayStack extends Stack {
       handler: 'index.handler',
       timeout: Duration.seconds(10),
       environment: {
-        BUCKET: bucket.bucketName,
+        BUCKET_NAME: bucket.bucketName,
       },
     })
   }
@@ -80,6 +76,19 @@ export class TriggerLambdaFromApiGatewayStack extends Stack {
       restApiName: restApiName,
       description: restApiName,
     })
+  }
+
+  setupApiGateway = (lambdaFucntion: LambdaFunction, restApi: RestApi) => {
+    const lambdaIntegration = new LambdaIntegration(lambdaFucntion, {
+      requestTemplates: { 'application/json': '{ "statusCode": "200" }' },
+    })
+
+    const myResource: Resource = restApi.root.addResource('myResource')
+
+    restApi.root.addMethod('GET', lambdaIntegration)
+    restApi.root.addMethod('POST', lambdaIntegration)
+
+    myResource.addMethod('GET', lambdaIntegration)
   }
 
   createOutputs = (
