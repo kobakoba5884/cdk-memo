@@ -8,8 +8,12 @@
     "modified": "2023-06-25T05:44:35.858Z",
     "data": [
       {
-        "name": "URL",
+        "name": "URLdd",
         "value": "http://localhost:3333"
+      },
+      {
+        "name": "URL",
+        "value": "https://scej2q15ue.execute-api.ap-northeast-1.amazonaws.com/prod/"
       }
     ]
   }

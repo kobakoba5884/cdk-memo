@@ -18,7 +18,11 @@ import {
   Function as LambdaFunction,
   Runtime,
 } from 'aws-cdk-lib/aws-lambda'
-import { LambdaIntegration, Resource, RestApi } from 'aws-cdk-lib/aws-apigateway'
+import {
+  LambdaIntegration,
+  Resource,
+  RestApi,
+} from 'aws-cdk-lib/aws-apigateway'
 
 const SHARED_NAME = 'trigger-lambda-from-api-gateway'
 
@@ -75,13 +79,14 @@ export class TriggerLambdaFromApiGatewayStack extends Stack {
     return new RestApi(this, restApiName, {
       restApiName: restApiName,
       description: restApiName,
+      deployOptions: {
+        stageName: 'dev',
+      },
     })
   }
 
   setupApiGateway = (lambdaFucntion: LambdaFunction, restApi: RestApi) => {
-    const lambdaIntegration = new LambdaIntegration(lambdaFucntion, {
-      requestTemplates: { 'application/json': '{ "statusCode": "200" }' },
-    })
+    const lambdaIntegration = new LambdaIntegration(lambdaFucntion, {})
 
     const myResource: Resource = restApi.root.addResource('myResource')
 
