@@ -5,12 +5,10 @@ phases:
       nodejs: 18
     commands:
       - echo "Installing dependencies..."
-      - npm install
   build:
     commands:
       - echo "Building application..."
-      - npm run build
 artifacts:
   files:
     - '**/*'
-  base-directory: 'dist'
+  base-directory: '.'
