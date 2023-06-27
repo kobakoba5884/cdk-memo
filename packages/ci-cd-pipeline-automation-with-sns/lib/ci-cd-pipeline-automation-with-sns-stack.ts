@@ -102,13 +102,14 @@ export class CiCdPipelineAutomationWithSnsStack extends Stack {
       actionName: actionName,
       repository: repository,
       output: sourceOutput,
+      branch: 'main',
     })
   }
 
   createBuildProject = (): Project => {
     const buildProjectName = `${PROJECT_NAME}-build-project`
 
-    const pathToBuildspec = path.join(__dirname, '..', 'template-buldspec.yml')
+    const pathToBuildspec = path.join(__dirname, '..', 'template-buildspec.yml')
     const buildSpecYaml = fs.readFileSync(pathToBuildspec, 'utf8')
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     const buildSpecJson = yaml.load(buildSpecYaml) as Record<string, unknown>
