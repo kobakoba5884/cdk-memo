@@ -6,13 +6,15 @@ import path from 'path'
 
 export class SourceStage {
   private readonly repository: Repository
-  private stack: Stack
+  private readonly stack: Stack
+  private readonly sourceAction: CodeCommitSourceAction
   private readonly sourceOutput: Artifact
 
   constructor(stack: Stack) {
     this.stack = stack
     this.sourceOutput = new Artifact()
     this.repository = this.createRepository()
+    this.sourceAction = this.createCodeCommitSourceAction()
   }
 
   private createRepository = (): Repository => {
@@ -26,12 +28,16 @@ export class SourceStage {
     })
   }
 
-  public getCodeCommitSourceAction = (): CodeCommitSourceAction => {
+  private createCodeCommitSourceAction = (): CodeCommitSourceAction => {
     return new CodeCommitSourceAction({
       actionName: 'Source-Action',
       output: this.sourceOutput,
       repository: this.repository,
     })
+  }
+
+  public getCodeCommitSourceAction = (): CodeCommitSourceAction => {
+    return this.sourceAction
   }
 
   public getSourceOutput = (): Artifact => {
