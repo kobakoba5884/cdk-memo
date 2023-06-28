@@ -16,15 +16,26 @@ import {
   ServerApplication,
   ServerDeploymentGroup,
 } from 'aws-cdk-lib/aws-codedeploy'
-import dotenv from 'dotenv'
+import {
+  AmazonLinuxGeneration,
+  AmazonLinuxImage,
+  InstanceClass,
+  InstanceSize,
+  InstanceType,
+  UserData,
+  Vpc,
+} from 'aws-cdk-lib/aws-ec2'
+import { AutoScalingGroup } from 'aws-cdk-lib/aws-autoscaling'
 import fs from 'fs'
 import yaml from 'js-yaml'
+import dotenv from 'dotenv'
 
 dotenv.config()
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 const PROJECT_NAME = path.basename(path.resolve(__dirname, '..'))
 const EMAIL = process.env.EMAIL || ''
+const REGION = process.env.CDK_DEFAULT_REGION || ''
 
 export class CiCdPipelineAutomationWithSnsStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -168,9 +179,44 @@ export class CiCdPipelineAutomationWithSnsStack extends Stack {
     application: ServerApplication
   ): ServerDeploymentGroup => {
     const deploymentGroupName = `${PROJECT_NAME}-deployment-group`
+
+    const defaultVpc = Vpc.fromLookup(this, `${PROJECT_NAME}-vpc`, {
+      isDefault: true,
+    })
+
+    const amazonLinux = new AmazonLinuxImage({
+      generation: AmazonLinuxGeneration.AMAZON_LINUX_2,
+    });
+
+    const userData = UserData.forLinux()
+
+    userData.addCommands(
+      'yum -y update',
+      'yum install -y ruby',
+      'yum install -y aws-cli',
+      `aws s3 cp s3://aws-codedeploy-${REGION}/latest/install . --region ${REGION}`,
+      'chmod +x ./install',
+      './install auto'
+    )
+
+    const autoscalingGroup = new AutoScalingGroup(
+      this,
+      `${PROJECT_NAME}-autoscaling-group`,
+      {
+        vpc: defaultVpc,
+        instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
+        machineImage: amazonLinux,
+        userData: userData,
+        desiredCapacity: 1,
+        minCapacity: 1,
+        maxCapacity: 2
+      }
+    )
+
     return new ServerDeploymentGroup(this, deploymentGroupName, {
       deploymentGroupName: deploymentGroupName,
       application: application,
+      autoScalingGroups: [autoscalingGroup],
     })
   }
 
