@@ -1,0 +1,71 @@
+{
+    "_id": "11e79623-d8c7-4e65-ab57-3f14ce9db449",
+    "colName": "trigger-lambda-from-api-gateway",
+    "created": "2023-06-25T05:41:57.794Z",
+    "sortNum": 10000,
+    "folders": [
+        {
+            "_id": "1d977cea-db03-4c48-a77a-79eafeeb2fd1",
+            "name": "/",
+            "containerId": "",
+            "created": "2023-06-25T05:42:27.338Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "219078b8-65a4-4539-b8d0-030a7ac5f499",
+            "name": "/myResource",
+            "containerId": "",
+            "created": "2023-06-25T08:26:00.097Z",
+            "sortNum": 30000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "3bad7eb8-f9b8-40ab-a621-00bc6b47ad40",
+            "colId": "11e79623-d8c7-4e65-ab57-3f14ce9db449",
+            "containerId": "1d977cea-db03-4c48-a77a-79eafeeb2fd1",
+            "name": "200-or-500-all-s3-objects",
+            "url": "{{URL}}/",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-06-25T05:42:50.243Z",
+            "modified": "2023-06-25T07:21:54.144Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "49ec634a-271e-4133-8004-6d369d7a8b45",
+            "colId": "11e79623-d8c7-4e65-ab57-3f14ce9db449",
+            "containerId": "1d977cea-db03-4c48-a77a-79eafeeb2fd1",
+            "name": "405-error",
+            "url": "{{URL}}/",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-06-25T07:56:47.478Z",
+            "modified": "2023-06-25T07:57:01.315Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "1d2eb647-f2ff-44de-a8c6-dd071778840c",
+            "colId": "11e79623-d8c7-4e65-ab57-3f14ce9db449",
+            "containerId": "219078b8-65a4-4539-b8d0-030a7ac5f499",
+            "name": "400-error",
+            "url": "{{URL}}/myResource",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-06-25T07:57:43.887Z",
+            "modified": "2023-06-25T08:26:13.334Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}
