@@ -1,10 +1,10 @@
 import { Stack } from 'aws-cdk-lib'
 import { BuildSpec, LinuxBuildImage, Project } from 'aws-cdk-lib/aws-codebuild'
+import { CodeBuildAction } from 'aws-cdk-lib/aws-codepipeline-actions'
 import { Artifact } from 'aws-cdk-lib/aws-codepipeline'
 import path from 'path'
 import fs from 'fs'
 import yaml from 'js-yaml'
-import { CodeBuildAction } from 'aws-cdk-lib/aws-codepipeline-actions'
 
 export class BuildStage {
   private readonly stack: Stack
