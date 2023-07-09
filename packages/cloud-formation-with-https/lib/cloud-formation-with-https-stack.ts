@@ -18,6 +18,7 @@ import path from 'path'
 
 export class CloudFormationWithHttpsStack extends Stack {
   private readonly PROJECT_NAME = path.basename(path.join(__dirname, '..'))
+  
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props)
 
